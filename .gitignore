@@ -1,0 +1,27 @@
+# Build artifacts
+/build/
+bin/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiler outputs
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+
+# Editor / OS files
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SDL2-installed files (if manually downloaded)
+SDL2-*/
