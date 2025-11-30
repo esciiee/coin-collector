@@ -3,7 +3,6 @@
 #include <array>
 #include <atomic>
 #include <cstdint>
-#include <mutex>
 #include "connection.h"
 
 constexpr uint16_t kPORT = 7777;
@@ -24,7 +23,10 @@ private:
     GameState state_;
     std::array<Connection, kMPlayers> clients_;
 
-    std::array<Pair, kMPlayers> pending_inputs_;
-    std::mutex input_mutex_;
+    // the pending_inputs_ are modified by the respective 
+    // client thread, and read by the simulation_loop
+    // using atomics instead of locks for each pair will yield better performance
+    // memory ordering can remain relaxed as the load and store ops are independent
+    std::array<AtomicPair, kMPlayers> pending_inputs_;
 };
 

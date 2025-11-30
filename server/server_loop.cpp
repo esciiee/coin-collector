@@ -4,7 +4,7 @@
 #include "server.h"
 #include "snapshot.h"
 #include "serializer.h"
-#include <mutex>
+#include <atomic>
 #include <thread>
 #include <vector>
 
@@ -34,8 +34,8 @@ void GameServer::client_thread(int player_id) {
         if (type == MsgType::Input) {
             Pair msg;
             if (deserialize_input(payload.data(), payload.size(), msg)) {
-                std::lock_guard<std::mutex> guard(input_mutex_);
-                pending_inputs_[player_id] = {msg.x, msg.y};
+                pending_inputs_[player_id].x.store(msg.x, std::memory_order_relaxed);
+                pending_inputs_[player_id].y.store(msg.y, std::memory_order_relaxed);
             }
         }
     }
@@ -57,11 +57,10 @@ void GameServer::simulation_loop() {
         last = now;
 
         // latest player inputs
-        {
-            std::lock_guard<std::mutex> g(input_mutex_);
-            for (int i = 0; i < kMPlayers; ++i) {
-                apply_player_input(state_, i, pending_inputs_[i]);
-            }
+        for (int i = 0; i < kMPlayers; ++i) {
+            float x = pending_inputs_[i].x.load(std::memory_order_relaxed);
+            float y = pending_inputs_[i].y.load(std::memory_order_relaxed);
+            apply_player_input(state_, i, x, y);
         }
 
         // updates to plauer pos

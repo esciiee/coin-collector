@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <atomic>
 #include <cstdint>
 
 constexpr int kMPlayers = 2;
@@ -10,6 +11,11 @@ constexpr float kMapHeight = 100.0f;
 
 struct Pair {
     float x = 0.0f, y = 0.0f;
+};
+
+struct AtomicPair {
+    std::atomic<float> x{0.0f};
+    std::atomic<float> y{0.0f};
 };
 
 struct PlayerState {

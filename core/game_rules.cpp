@@ -8,7 +8,7 @@ static float clamp(float v, float lo, float hi) {
     return v;
 }
 
-void apply_player_input(GameState &state, int player_id, Pair del) 
+void apply_player_input(GameState &state, int player_id, float dx, float dy) 
 {
     if (player_id < 0 || player_id >= kMPlayers) {
         return;
@@ -18,15 +18,15 @@ void apply_player_input(GameState &state, int player_id, Pair del)
         return;
     }
     // diagnol movement must be normalized
-    float len = std::sqrt(del.x * del.x + del.y * del.y);
+    float len = std::sqrt(dx * dx + dy * dy);
     if (len > 0) {
         // diag movements changes to (+-1/sqrt(2))
-        del.x /= len;
-        del.y /= len;
+        dx /= len;
+        dy /= len;
     }
 
-    p.vel.x = del.x * kPlayerSpeed;
-    p.vel.y = del.y * kPlayerSpeed;
+    p.vel.x = dx * kPlayerSpeed;
+    p.vel.y = dy * kPlayerSpeed;
 }
 
 void update_pos(GameState& state, float dt)

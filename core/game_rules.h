@@ -14,7 +14,7 @@ constexpr float kCoinPickRadius = 2.0f;
 // 0, 0 : idol, no movement
 // 1, 0 : movement in the x axis
 // 1, 1 : diag in pos x, y side and so on for others
-void apply_player_input(GameState& state, int player_id, Pair del_directions);
+void apply_player_input(GameState& state, int player_id, float dx, float dy);
 
 // called in the update loop for every update interval
 void update_pos(GameState& state, float dt);
