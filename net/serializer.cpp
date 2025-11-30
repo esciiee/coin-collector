@@ -6,12 +6,12 @@ static void write_u8(bytes& buf, std::uint8_t v) {
     buf.push_back(v);
 }
 
-static void write_u32(bytes& buf, std::uint8_t v) {
+static void write_u32(bytes& buf, std::uint32_t v) {
     for (int i = 0; i < 4; i++)
         buf.push_back((v >> (i * 8)) & 0xFF);
 }
 
-static void write_u64(bytes& buf, std::uint8_t v) {
+static void write_u64(bytes& buf, std::uint64_t v) {
     for (int i = 0; i < 8; i++)
         buf.push_back((v >> (i * 8)) & 0xFF);
 }
@@ -68,7 +68,7 @@ bool deserialize_input(const std::uint8_t* data, std::size_t size, Pair& out) {
         && read_f32(p, end, out.y);
 }
 
-bytes serialize_shotshot(const Snapshot& snapshot) {
+bytes serialize_snapshot(const Snapshot& snapshot) {
     bytes out;
 
     write_u64(out, snapshot.tick);
@@ -114,7 +114,7 @@ bool deserialize_snapshot(const std::uint8_t* data, std::size_t size, Snapshot& 
 }
 
 // framed msg is of type [len][msg_type][payload]
-bytes make_framed_message(
+bytes frame_message(
     MsgType type,
     const bytes& payload)
 {
@@ -130,8 +130,7 @@ bytes make_framed_message(
 }
 
 bool parse_frame_header(const std::uint8_t* data, std::size_t size,
-                        std::uint32_t& out_len, MsgType& out_type,
-                        const std::uint8_t*& out_payload)
+                        std::uint32_t& out_len, MsgType& out_type)
 {
     if (size < 5) return false;
 
@@ -143,8 +142,6 @@ bool parse_frame_header(const std::uint8_t* data, std::size_t size,
     std::uint8_t t;
     if (!read_u8(p, end, t)) return false;
     out_type = static_cast<MsgType>(t);
-
-    out_payload = p;  // payload starts just after msg_type
     return true;
 }
 
