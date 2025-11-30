@@ -6,6 +6,13 @@
 Connection::Connection(TcpSocket sock) : sock_(std::move(sock)) {}
 
 bool Connection::send_frame(MsgType type, const std::vector<uint8_t>& payload) {
+    // the round trip delay is more than intended
+    // when both send and recv are delayed,
+    // for every tick we send input(200ms) + recv_input(200ms) + send_snapshot(200ms) + recv_snapshot(200ms)
+    // adding upto 800ms update time per tick + the main simulation loops
+    // is blocked for 200ms for sending snapshot to 1 client, so + 200*2ms delay here
+    // so it is not just a 200ms latency
+    // but 200ms per client per tick per direction per message, massively accumulating total lataency
     maybe_delay();
     bytes frame = frame_message(type, payload);
     return sock_.send_all(frame.data(), frame.size());
