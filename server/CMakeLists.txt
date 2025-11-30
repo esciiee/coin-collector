@@ -4,4 +4,4 @@ add_executable(server
     server_loop.cpp
 )
 
-target_link_libraries(server PRIVATE core net pthread)
+target_link_libraries(server PUBLIC core net pthread)
