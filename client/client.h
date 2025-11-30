@@ -12,8 +12,6 @@ struct SDLContext {
     SDL_Renderer* renderer = nullptr;
 
 };
-constexpr std::string kServerAddress = "127.0.0.1";
-constexpr std::uint16_t kPORT = 7777;
 
 class GameClient {
 public:

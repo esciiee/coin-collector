@@ -1,15 +1,18 @@
 #include "connection.h"
+#include "latency.h"
 #include "serializer.h"
 #include <vector>
 
 Connection::Connection(TcpSocket sock) : sock_(std::move(sock)) {}
 
 bool Connection::send_frame(MsgType type, const std::vector<uint8_t>& payload) {
+    maybe_delay();
     bytes frame = frame_message(type, payload);
     return sock_.send_all(frame.data(), frame.size());
 }
 
 bool Connection::recv_frame(MsgType& out_type, std::vector<uint8_t>& out_payload) {
+    maybe_delay();
     // decode header
     uint8_t header[5];
     if (!sock_.recv_all(header, 5))
