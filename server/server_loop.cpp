@@ -1,4 +1,3 @@
-#pragma once
 #include "connection.h"
 #include "game_rules.h"
 #include "protocol.h"

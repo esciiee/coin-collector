@@ -1,11 +1,12 @@
 #pragma once
 
 #include "game_state.h"
-#include <array>
 #include <cstdint>
 
 constexpr float kPlayerSpeed = 12.0f;
+constexpr uint64_t kTickRate = 30;  //simulation_loop runs at 30 Hz
 constexpr uint64_t kCoinSpawnIntervalMs = 3000;
+constexpr uint64_t kCoinSpawnIntervalTicks = static_cast<uint64_t>((kCoinSpawnIntervalMs / 1000.0f) * kTickRate);  // 90 ticks
 constexpr float kCoinPickRadius = 2.0f;
 
 // called when there is an input signal
