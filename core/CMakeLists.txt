@@ -4,6 +4,7 @@ add_library(core
     interpolation.cpp
     snapshot.cpp
     protocol.cpp
+    snapshot_queue.cpp
 )
 
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

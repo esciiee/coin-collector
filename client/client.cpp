@@ -67,8 +67,7 @@ void GameClient::net_thread() {
         if (type == MsgType::Snapshot) {
             Snapshot snapshot;
             if (deserialize_snapshot(payload.data(), payload.size(), snapshot)) {
-                std::lock_guard<std::mutex> guard(buffer_mutex_);
-                add_snapshot(buffer_, snapshot);
+                incomming_snapshots_.push(snapshot); // failure case handling needed here
             }
         }
     }

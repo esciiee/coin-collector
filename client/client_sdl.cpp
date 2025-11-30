@@ -11,7 +11,7 @@ void GameClient::sdl_init() {
         "Coin Collector",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        800, 600,
+        kWindowWidth, kWindowHeight,
         SDL_WINDOW_SHOWN
     );
 

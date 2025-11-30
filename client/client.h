@@ -2,10 +2,19 @@
 
 #include "interpolation.h"
 #include "connection.h"
+#include "snapshot_queue.h"
 #include <atomic>
 #include <cstdint>
 #include <string>
 #include <SDL2/SDL.h>
+
+constexpr int kWindowWidth = 960;
+constexpr int kWindowHeight = 640;
+constexpr float kPixelsPerUnitX = static_cast<float>(kWindowWidth) / kMapWidth;
+constexpr float kPixelsPerUnitY = static_cast<float>(kWindowHeight) / kMapHeight;
+constexpr int kTotalSegments = 10;
+constexpr int kSegmentWidth = 10;
+constexpr int kSegmentHeight = 18;
 
 struct SDLContext {
     SDL_Window* window = nullptr;
@@ -35,7 +44,8 @@ private:
     SDLContext sdl_;
     std::atomic<bool> running_{false};
     Connection conn_;
+    // snapshot queue is shared b/w net and render thread, where the net thread
+    // is Producer and the render thread is the consumer
+    SnapshotQueue incomming_snapshots_;
     SnapshotsBuffer buffer_;
-    // implement lock free queue in rev2
-    std::mutex buffer_mutex_;
 };
