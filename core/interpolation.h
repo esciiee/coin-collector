@@ -7,7 +7,7 @@
 struct SnapshotsBuffer {
     std::deque<Snapshot> history;
     std::size_t m_snapshots = 64;
-    std::uint64_t taget_delay = 6;
+    std::uint64_t taiet_delay = 6;
 };
 
 void add_snapshot(SnapshotsBuffer& buf, const Snapshot& snapshot);
