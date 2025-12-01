@@ -7,6 +7,8 @@ This project implements a minimal real-time multiplayer Coin Collector game with
 - Raw TCP Networking
 - Introduces tests in adverse network condtions
 
+The video demo of the same can be found [here](https://youtu.be/bPqbqADVev0)
+
 ## Project Structure
 
 The project is divided in 4 sub-directories each serving different purpose
@@ -22,11 +24,11 @@ The project is divided in 4 sub-directories each serving different purpose
 - SDL2 for client side
     - Ubuntu Debian
         ```bash
-            sudo apt install libsdl2-dev
+        sudo apt install libsdl2-dev
         ```
     - macOS
         ```bash
-            brew install sdl2
+        brew install sdl2
         ```
 
     - For other OS, follow detailed instructions at sdl [install page](https://wiki.libsdl.org/SDL2/Installation)
@@ -34,27 +36,27 @@ The project is divided in 4 sub-directories each serving different purpose
 The game can be built and runned using the following instructions
 
 ```bash
-    mkdir build
-    cd build
-    cmake ..
-    make -j
+mkdir build
+cd build
+cmake ..
+make -j
 ```
 
 ### Running the Server
 
 ```bash
-    ./bin/server
+./bin/server
 ```
 
 ### Running the Client
 ```bash
-    ./bin/client
+./bin/client
 ```
 
 Note that the game can be runnned using self instroduced latency to test the game under adverse network conditions, ex: a 200ms latency can be introduced as follows
 ```bash
-    ./bin/server --latency=200
-    ./bin/client --latency=200
+./bin/server --latency=200
+./bin/client --latency=200
 ```
 
 
